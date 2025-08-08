@@ -1,0 +1,53 @@
+{
+  "name": "v-tooltip-lite",
+  "version": "0.0.1",
+  "description": "Lightweight, Customizable Tooltip/Dropdown Component for Vue 3",
+  "type": "module",
+  "author": "safdar-azeem",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "vue",
+    "vue3",
+    "toolTip",
+    "tool-tip",
+    "vue-tooltip",
+    "vue-dropdown",
+    "dropdown"
+  ],
+  "homepage": "https://github.com/safdar-azeem/v-toolTip-lite#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/safdar-azeem/v-toolTip-lite.git"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.31"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/vue": "^2.0.0",
+    "@vitejs/plugin-vue": "^5.0.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.1",
+    "vite-plugin-dts": "^3.9.1",
+    "vue-tsc": "^2.0.21"
+  },
+  "prettier": {
+    "printWidth": 105,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "tabWidth": 3,
+    "endOfLine": "auto",
+    "bracketSameLine": true
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "clickout-lite": "^0.0.1"
+  }
+}
