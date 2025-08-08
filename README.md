@@ -12,6 +12,10 @@ A lightweight and customizable Vue 3 tooltip component with support for hover an
 -  **Performance Optimized**: Uses Vue 3 composition API for efficient rendering and positioning.
 -  **TypeScript Support**: Fully typed with TypeScript for better developer experience.
 
+## Demo
+
+[Live Demo](https://v-tooltip-lite.vercel.app/)
+
 ## Installation
 
 ```bash
