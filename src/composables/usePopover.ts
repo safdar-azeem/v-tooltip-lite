@@ -91,6 +91,9 @@ export function usePopover(
                if (containerRef.value) {
                   await initializePopper()
                   options.onShow?.()
+                  setTimeout(() => {
+                     popperInstance.value?.forceUpdate()
+                  }, 0)
                }
             },
             triggerMode === 'hover' ? 150 : 0
