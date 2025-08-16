@@ -8,4 +8,6 @@ export interface TooltTipProps {
    offset?: [number, number]
    trigger?: 'hover' | 'click'
    arrow?: boolean
+   triggerClass?: string
+   styles?: Record<string, string>
 }
