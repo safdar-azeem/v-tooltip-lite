@@ -45,19 +45,22 @@ onUnmounted(() => {
 
 <template>
    <div class="tooltip-wrapper">
-      <span ref="triggerRef" class="tooltip-trigger">
+      <span ref="triggerRef" class="tooltip-trigger" :class="triggerClass">
          <slot name="trigger" />
       </span>
-      <div
-         v-if="isOpen"
-         ref="containerRef"
-         class="tooltip-container tooltip-container--open"
-         role="tooltip"
-         aria-hidden="true">
-         <div class="tooltip-content">
-            <slot>{{ content }}</slot>
+      <teleport to="body" v-if="isOpen">
+         <div
+            :style="styles"
+            v-if="isOpen"
+            ref="containerRef"
+            class="tooltip-container tooltip-container--open"
+            role="tooltip"
+            aria-hidden="true">
+            <div class="tooltip-content">
+               <slot>{{ content }}</slot>
+            </div>
+            <div v-if="arrow" :class="['tooltip-arrow', arrowClass]"></div>
          </div>
-         <div v-if="arrow" :class="['tooltip-arrow', arrowClass]"></div>
-      </div>
+      </teleport>
    </div>
 </template>
