@@ -1,6 +1,6 @@
 {
   "name": "v-tooltip-lite",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Lightweight, Customizable Tooltip/Dropdown Component for Vue 3",
   "type": "module",
   "author": "safdar-azeem",
