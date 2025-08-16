@@ -157,6 +157,14 @@
    border-left: var(--tooltip-arrow-size) solid var(--tooltip-bg);
 }
 
+.w-full {
+   width: 100%;
+}
+
+.h-inherit {
+   height: inherit;
+}
+
 @media (max-width: 30em) {
    .tooltip-content {
       font-size: 0.6875em;
