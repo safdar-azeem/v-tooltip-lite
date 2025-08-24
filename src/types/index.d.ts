@@ -9,5 +9,6 @@ export interface TooltTipProps {
    trigger?: 'hover' | 'click'
    arrow?: boolean
    triggerClass?: string
+   className?: string
    styles?: Record<string, string>
 }
