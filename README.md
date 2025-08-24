@@ -1,6 +1,6 @@
-# Vue Tooltip Lite
+# Vue Tooltip | DropDown
 
-A lightweight and customizable Vue 3 tooltip component with support for hover and click triggers, customizable placement, offset, and arrow styles, featuring accessibility and responsive design.
+A lightweight and customizable Vue 3 tooltip/dropdown component with support for hover and click triggers, customizable placement, offset, and arrow styles, featuring accessibility and responsive design.
 
 ## Features
 
@@ -157,7 +157,6 @@ Customize the appearance using the following CSS variables defined in `style.css
    --tooltip-line-height: 1.4;
    --tooltip-padding: 0.6em 0.5em;
    --tooltip-min-width: 3.125em;
-   --tooltip-max-width: 17.5em;
 }
 ```
 
