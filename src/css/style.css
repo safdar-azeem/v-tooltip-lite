@@ -12,7 +12,6 @@
    --tooltip-line-height: 1.4;
    --tooltip-padding: 0.6em 0.5em;
    --tooltip-min-width: 3.125em;
-   --tooltip-max-width: 17.5em;
 }
 
 .tooltip-wrapper {
@@ -49,7 +48,6 @@
    text-align: center;
    word-wrap: break-word;
    min-width: var(--tooltip-min-width);
-   max-width: var(--tooltip-max-width);
    box-shadow: var(--tooltip-shadow);
    backdrop-filter: blur(0.5em);
    -webkit-backdrop-filter: blur(0.5em);
