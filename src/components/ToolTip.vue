@@ -10,6 +10,7 @@ const props = withDefaults(defineProps<TooltTipProps>(), {
    trigger: 'hover',
    content: '',
    arrow: true,
+   teleportTo: 'body',
 })
 
 const emit = defineEmits(['onShow', 'onHide'])
@@ -48,7 +49,7 @@ onUnmounted(() => {
       <span ref="triggerRef" class="tooltip-trigger" :class="triggerClass">
          <slot name="trigger" v-bind="{ isOpen }" />
       </span>
-      <teleport to="body" v-if="isOpen">
+      <teleport :to="teleportTo" v-if="isOpen">
          <div
             :style="styles"
             v-if="isOpen"
