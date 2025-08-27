@@ -132,7 +132,7 @@ A tooltip with long text that wraps within the maximum width.
 | `arrow`        | `boolean`                | `true`         | Whether to display the tooltip arrow.                                   |
 | `triggerClass` | `string`                 | `''`           | Class to be applied to the trigger element.                             |
 | `styles`       | `Record<string, string>` | `{}`           | Custom styles for the tooltip container.                                |
-| `teleportTo`   | `string`                 | `'body'`       | The element to teleport the tooltip to.                                 |
+| `teleport`     | `boolean`                | `true`         | Whether to teleport the tooltip to the body.                            |
 
 ## Events
 
