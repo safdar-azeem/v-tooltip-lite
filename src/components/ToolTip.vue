@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, computed } from 'vue'
+import { onMounted, onUnmounted, computed, Teleport } from 'vue'
 import { usePopover } from '../composables/usePopover'
 import { TooltTipProps } from '../types'
 import '../css/style.css'
@@ -10,7 +10,7 @@ const props = withDefaults(defineProps<TooltTipProps>(), {
    trigger: 'hover',
    content: '',
    arrow: true,
-   teleportTo: 'body',
+   teleport: true,
 })
 
 const emit = defineEmits(['onShow', 'onHide'])
@@ -49,7 +49,7 @@ onUnmounted(() => {
       <span ref="triggerRef" class="tooltip-trigger" :class="triggerClass">
          <slot name="trigger" v-bind="{ isOpen }" />
       </span>
-      <teleport :to="teleportTo" v-if="isOpen">
+      <component :is="teleport ? Teleport : 'div'" v-if="isOpen" to="body">
          <div
             :style="styles"
             v-if="isOpen"
@@ -63,6 +63,6 @@ onUnmounted(() => {
             </div>
             <div v-if="arrow" :class="['tooltip-arrow', arrowClass]"></div>
          </div>
-      </teleport>
+      </component>
    </div>
 </template>
