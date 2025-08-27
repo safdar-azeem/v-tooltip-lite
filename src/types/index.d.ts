@@ -10,5 +10,7 @@ export interface TooltTipProps {
    arrow?: boolean
    triggerClass?: string
    className?: string
+   contentClass?: string
+   teleportTo?: string
    styles?: Record<string, string>
 }
