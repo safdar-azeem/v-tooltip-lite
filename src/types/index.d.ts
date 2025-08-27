@@ -11,6 +11,6 @@ export interface TooltTipProps {
    triggerClass?: string
    className?: string
    contentClass?: string
-   teleportTo?: string
+   teleport?: boolean
    styles?: Record<string, string>
 }
