@@ -29,6 +29,8 @@ yarn add v-tooltip-lite
 pnpm add v-tooltip-lite
 ```
 
+> Don't forget to follow me on [GitHub](https://github.com/safdar-azeem)!
+
 ## Usage
 
 Below are examples demonstrating different configurations of the Vue Tooltip component.
