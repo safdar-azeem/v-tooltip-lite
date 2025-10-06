@@ -136,6 +136,18 @@ export function usePopover(
       }
    }
 
+   const handleMouseEnter = () => {
+      if (triggerMode === 'hover') {
+         showTooltip()
+      }
+   }
+
+   const handleMouseLeave = () => {
+      if (triggerMode === 'hover') {
+         hideTooltip()
+      }
+   }
+
    onMounted(async () => {
       await nextTick()
 
@@ -144,8 +156,8 @@ export function usePopover(
       }
 
       if (triggerMode === 'hover') {
-         triggerRef.value?.addEventListener('mouseenter', showTooltip)
-         triggerRef.value?.addEventListener('mouseleave', hideTooltip)
+         triggerRef.value?.addEventListener('mouseenter', handleMouseEnter)
+         triggerRef.value?.addEventListener('mouseleave', handleMouseLeave)
       }
 
       onClickOutside(containerRef, () => {
@@ -161,8 +173,8 @@ export function usePopover(
          triggerRef.value?.removeEventListener('click', toggleTooltip)
       }
       if (triggerMode === 'hover') {
-         triggerRef.value?.removeEventListener('mouseenter', showTooltip)
-         triggerRef.value?.removeEventListener('mouseleave', hideTooltip)
+         triggerRef.value?.removeEventListener('mouseenter', handleMouseEnter)
+         triggerRef.value?.removeEventListener('mouseleave', handleMouseLeave)
       }
    })
 
@@ -174,6 +186,17 @@ export function usePopover(
          }
       }
    )
+
+   watch(isOpen, (isNowOpen) => {
+      if (triggerMode !== 'hover') return
+
+      nextTick(() => {
+         if (isNowOpen && containerRef.value) {
+            containerRef.value.addEventListener('mouseenter', handleMouseEnter)
+            containerRef.value.addEventListener('mouseleave', handleMouseLeave)
+         }
+      })
+   })
 
    return {
       triggerRef,
