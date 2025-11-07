@@ -13,4 +13,5 @@ export interface TooltTipProps {
    contentClass?: string
    teleport?: boolean
    styles?: Record<string, string>
+   ignoreClickOutside?: string[]
 }
