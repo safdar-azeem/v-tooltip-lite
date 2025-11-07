@@ -11,6 +11,7 @@ const props = withDefaults(defineProps<TooltTipProps>(), {
    content: '',
    arrow: true,
    teleport: true,
+   ignoreClickOutside: () => [],
 })
 
 const emit = defineEmits(['onShow', 'onHide'])
@@ -19,6 +20,7 @@ const { triggerRef, containerRef, actualPlacement, initializePopper, destroyPopp
    usePopover(props.placement, props.offset, props.trigger, {
       onShow: () => emit('onShow'),
       onHide: () => emit('onHide'),
+      ignoreClickOutside: props.ignoreClickOutside,
    })
 
 const arrowClass = computed(() => {
@@ -58,7 +60,7 @@ onUnmounted(() => {
             :class="className"
             role="tooltip"
             aria-hidden="true">
-            <div class="tooltip-content">
+            <div class="tooltip-content" :class="contentClass">
                <slot v-bind="{ isOpen }">{{ content }}</slot>
             </div>
             <div v-if="arrow" :class="['tooltip-arrow', arrowClass]"></div>
