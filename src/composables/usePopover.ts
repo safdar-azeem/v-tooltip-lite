@@ -7,6 +7,7 @@ import { createPopper, type Instance as PopperInstance } from '@popperjs/core'
 interface PopoverOptions {
    onShow?: () => void
    onHide?: () => void
+   ignoreClickOutside?: string[]
 }
 
 export function usePopover(
@@ -148,6 +149,21 @@ export function usePopover(
       }
    }
 
+   const shouldIgnoreClick = (target: HTMLElement): boolean => {
+      if (!options.ignoreClickOutside || options.ignoreClickOutside.length === 0) {
+         return false
+      }
+
+      return options.ignoreClickOutside.some((selector) => {
+         if (selector.startsWith('#')) {
+            return target.id === selector.substring(1) || target.closest(selector) !== null
+         } else if (selector.startsWith('.')) {
+            return target.classList.contains(selector.substring(1)) || target.closest(selector) !== null
+         }
+         return target.matches(selector) || target.closest(selector) !== null
+      })
+   }
+
    onMounted(async () => {
       await nextTick()
 
@@ -160,9 +176,12 @@ export function usePopover(
          triggerRef.value?.addEventListener('mouseleave', handleMouseLeave)
       }
 
-      onClickOutside(containerRef, () => {
+      onClickOutside(containerRef, (event) => {
          if (isOpen.value && triggerMode === 'click') {
-            hideTooltip()
+            const target = event.target as HTMLElement
+            if (!shouldIgnoreClick(target)) {
+               hideTooltip()
+            }
          }
       })
    })
