@@ -125,16 +125,18 @@ A tooltip with long text that wraps within the maximum width.
 
 ## Props
 
-| Prop           | Type                     | Default        | Description                                                             |
-| -------------- | ------------------------ | -------------- | ----------------------------------------------------------------------- |
-| `content`      | `string`                 | `''`           | The tooltip content (used if no default slot is provided).              |
-| `placement`    | `string`                 | `'bottom-end'` | Popper.js placement (e.g., `top`, `bottom`, `left`, `right`, etc.).     |
-| `offset`       | `[number, number]`       | `[0, 8]`       | Offset for the tooltip from the trigger element `[skidding, distance]`. |
-| `trigger`      | `'hover' \| 'click'`     | `'hover'`      | Trigger mode for showing/hiding the tooltip.                            |
-| `arrow`        | `boolean`                | `true`         | Whether to display the tooltip arrow.                                   |
-| `triggerClass` | `string`                 | `''`           | Class to be applied to the trigger element.                             |
-| `styles`       | `Record<string, string>` | `{}`           | Custom styles for the tooltip container.                                |
-| `teleport`     | `boolean`                | `true`         | Whether to teleport the tooltip to the body.                            |
+| Prop                 | Type                     | Default        | Description                                                             |
+| -------------------- | ------------------------ | -------------- | ----------------------------------------------------------------------- |
+| `content`            | `string`                 | `''`           | The tooltip content (used if no default slot is provided).              |
+| `placement`          | `string`                 | `'bottom-end'` | Popper.js placement (e.g., `top`, `bottom`, `left`, `right`, etc.).     |
+| `offset`             | `[number, number]`       | `[0, 8]`       | Offset for the tooltip from the trigger element `[skidding, distance]`. |
+| `trigger`            | `'hover' \| 'click'`     | `'hover'`      | Trigger mode for showing/hiding the tooltip.                            |
+| `arrow`              | `boolean`                | `true`         | Whether to display the tooltip arrow.                                   |
+| `triggerClass`       | `string`                 | `''`           | Class to be applied to the trigger element.                             |
+| `styles`             | `Record<string, string>` | `{}`           | Custom styles for the tooltip container.                                |
+| `teleport`           | `boolean`                | `true`         | Whether to teleport the tooltip to the body.                            |
+| `isOpen`             | `boolean`                | `undefined`    | Whether the tooltip is open.                                            |
+| `ignoreClickOutside` | `string[]`               | `[]`           | Array of CSS selectors to ignore click outside of.                      |
 
 ## Events
 
