@@ -14,4 +14,5 @@ export interface TooltTipProps {
    teleport?: boolean
    styles?: Record<string, string>
    ignoreClickOutside?: string[]
+   isOpen?: boolean
 }
