@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, computed, Teleport } from 'vue'
+import { onMounted, onUnmounted, computed, Teleport, watch } from 'vue'
 import { usePopover } from '../composables/usePopover'
 import { TooltTipProps } from '../types'
 import '../css/style.css'
@@ -12,16 +12,26 @@ const props = withDefaults(defineProps<TooltTipProps>(), {
    arrow: true,
    teleport: true,
    ignoreClickOutside: () => [],
+   isOpen: undefined,
 })
 
-const emit = defineEmits(['onShow', 'onHide'])
+const emit = defineEmits(['onShow', 'onHide', 'update:isOpen'])
 
-const { triggerRef, containerRef, actualPlacement, initializePopper, destroyPopper, isOpen } =
-   usePopover(props.placement, props.offset, props.trigger, {
-      onShow: () => emit('onShow'),
-      onHide: () => emit('onHide'),
-      ignoreClickOutside: props.ignoreClickOutside,
-   })
+// Performance Optimization: Destructure only what is needed, including control methods
+const {
+   triggerRef,
+   containerRef,
+   actualPlacement,
+   initializePopper,
+   destroyPopper,
+   isOpen,
+   showTooltip,
+   hideTooltip,
+} = usePopover(props.placement, props.offset, props.trigger, {
+   onShow: () => emit('onShow'),
+   onHide: () => emit('onHide'),
+   ignoreClickOutside: props.ignoreClickOutside,
+})
 
 const arrowClass = computed(() => {
    if (!props.arrow) return ''
@@ -35,6 +45,29 @@ const arrowClass = computed(() => {
       : placement.includes('right')
       ? 'tooltip-arrow--left'
       : 'tooltip-arrow--top'
+})
+
+// Reactive Control: Sync external prop with internal state efficiently
+watch(
+   () => props.isOpen,
+   (shouldBeOpen) => {
+      if (shouldBeOpen === undefined) return
+
+      // Only trigger state changes if there is a mismatch to avoid redundant cycles
+      if (shouldBeOpen && !isOpen.value) {
+         showTooltip()
+      } else if (!shouldBeOpen && isOpen.value) {
+         hideTooltip()
+      }
+   },
+   { immediate: true }
+)
+
+// Sync internal state back to parent (v-model support)
+watch(isOpen, (val) => {
+   if (val !== props.isOpen) {
+      emit('update:isOpen', val)
+   }
 })
 
 onMounted(() => {
