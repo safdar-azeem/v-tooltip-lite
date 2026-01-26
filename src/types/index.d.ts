@@ -15,4 +15,5 @@ export interface TooltTipProps {
    styles?: Record<string, string>
    ignoreClickOutside?: string[]
    isOpen?: boolean
+   menuId?: string
 }
