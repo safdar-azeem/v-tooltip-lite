@@ -6,6 +6,7 @@ import '../css/style.css'
 
 const props = withDefaults(defineProps<TooltTipProps>(), {
    placement: 'bottom-end',
+   menuId: '',
    offset: () => [0, 8],
    trigger: 'hover',
    content: '',
@@ -39,12 +40,12 @@ const arrowClass = computed(() => {
    return placement.includes('top')
       ? 'tooltip-arrow--bottom'
       : placement.includes('bottom')
-      ? 'tooltip-arrow--top'
-      : placement.includes('left')
-      ? 'tooltip-arrow--right'
-      : placement.includes('right')
-      ? 'tooltip-arrow--left'
-      : 'tooltip-arrow--top'
+        ? 'tooltip-arrow--top'
+        : placement.includes('left')
+          ? 'tooltip-arrow--right'
+          : placement.includes('right')
+            ? 'tooltip-arrow--left'
+            : 'tooltip-arrow--top'
 })
 
 // Reactive Control: Sync external prop with internal state efficiently
@@ -88,6 +89,7 @@ onUnmounted(() => {
          <div
             :style="styles"
             v-if="isOpen"
+            :id="menuId"
             ref="containerRef"
             class="tooltip-container tooltip-container--open"
             :class="className"
