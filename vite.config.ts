@@ -29,11 +29,13 @@ export default defineConfig({
          input: {
             index: path.resolve(__dirname, 'src/index.ts'),
          },
-         external: ['vue'],
+         external: ['vue', 'clickout-lite', '@popperjs/core'],
          output: {
             inlineDynamicImports: false,
             globals: {
                vue: 'Vue',
+               '@popperjs/core': '@popperjs/core',
+               'clickout-lite': 'clickout-lite',
             },
          },
       },
