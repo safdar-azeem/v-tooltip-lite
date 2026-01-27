@@ -12,8 +12,7 @@
     ".": {
       "types": "./dist",
       "import": "./dist"
-    },
-    "./style.css": "./dist/style.css"
+    }
   },
   "files": [
     "dist",
