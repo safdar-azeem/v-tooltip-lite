@@ -10,7 +10,7 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist",
+      "types": "./dist/index.d.ts",
       "import": "./dist"
     }
   },
