@@ -4,13 +4,13 @@ A lightweight and customizable Vue 3 tooltip/dropdown component with support for
 
 ## Features
 
--  **Multiple Trigger Modes**: Supports `hover` and `click` triggers for flexible interaction.
--  **Customizable Placement**: Position tooltips with 12 placement options (e.g., `top`, `bottom`, `left`, `right`, etc.).
--  **Responsive Design**: Adapts to various screen sizes with a clean, modern UI.
--  **Accessibility**: Includes ARIA attributes for enhanced usability.
--  **Customizable Styling**: Flexible CSS variables for background, text, border, shadow, and arrow styles.
--  **Performance Optimized**: Uses Vue 3 composition API for efficient rendering and positioning.
--  **TypeScript Support**: Fully typed with TypeScript for better developer experience.
+- **Multiple Trigger Modes**: Supports `hover` and `click` triggers for flexible interaction.
+- **Customizable Placement**: Position tooltips with 12 placement options (e.g., `top`, `bottom`, `left`, `right`, etc.).
+- **Responsive Design**: Adapts to various screen sizes with a clean, modern UI.
+- **Accessibility**: Includes ARIA attributes for enhanced usability.
+- **Customizable Styling**: Flexible CSS variables for background, text, border, shadow, and arrow styles.
+- **Performance Optimized**: Uses Vue 3 composition API for efficient rendering and positioning.
+- **TypeScript Support**: Fully typed with TypeScript for better developer experience.
 
 ## Demo
 
@@ -155,7 +155,8 @@ Customize the appearance using the following CSS variables defined in `style.css
    --tooltip-text: #ffffff;
    --tooltip-border: rgba(255, 255, 255, 0.1);
    --tooltip-radius: 0.375em;
-   --tooltip-shadow: 0 0.625em 1.5625em -0.3125em rgba(0, 0, 0, 0.1), 0 0.25em 0.375em -0.125em rgba(0, 0, 0, 0.05);
+   --tooltip-shadow:
+      0 0.625em 1.5625em -0.3125em rgba(0, 0, 0, 0.1), 0 0.25em 0.375em -0.125em rgba(0, 0, 0, 0.05);
    --tooltip-arrow-size: 0.475em;
    --tooltip-z-index: 999989;
    --tooltip-font-size: 0.75em;
