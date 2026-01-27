@@ -153,12 +153,16 @@ export function usePopover(
       if (!options.ignoreClickOutside || options.ignoreClickOutside.length === 0) {
          return false
       }
-
       return options.ignoreClickOutside.some((selector) => {
          if (selector.startsWith('#')) {
-            return target.id === selector.substring(1) || target.closest(selector) !== null
+            const id = selector.substring(1)
+            return target.id === id || target.closest(`#${CSS.escape(id)}`) !== null
          } else if (selector.startsWith('.')) {
-            return target.classList.contains(selector.substring(1)) || target.closest(selector) !== null
+            const className = selector.substring(1)
+            return (
+               target.classList.contains(className) ||
+               target.closest(`.${CSS.escape(className)}`) !== null
+            )
          }
          return target.matches(selector) || target.closest(selector) !== null
       })
