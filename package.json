@@ -5,48 +5,15 @@
   "type": "module",
   "author": "safdar-azeem",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./*": {
-      "types": "./dist/*.d.ts",
-      "import": "./dist/*.js"
-    },
-    "./style.css": "./dist/style.css"
-  },
-  "files": [
-    "dist",
-    "README.md"
-  ],
-  "keywords": [
-    "vue",
-    "vue3",
-    "toolTip",
-    "tool-tip",
-    "vue-tooltip",
-    "vue-dropdown",
-    "menu",
-    "vue-menu",
-    "dropdown"
-  ],
-  "homepage": "https://github.com/safdar-azeem/v-toolTip-lite#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/safdar-azeem/v-toolTip-lite.git"
-  },
+  "main": "index.js",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview",
-    "prepublishOnly": "npm run build",
-    "release:patch": "npm version patch && npm publish",
-    "release:minor": "npm version minor && npm publish",
-    "release:major": "npm version major && npm publish"
+    "prepare:dist": "npm run build && cp package.json README.md dist/",
+    "release:patch": "npm version patch && npm run prepare:dist && cd dist && npm publish",
+    "release:minor": "npm version minor && npm run prepare:dist && cd dist && npm publish",
+    "release:major": "npm version major && npm run prepare:dist && cd dist && npm publish",
+    "publish:dist": "npm run prepare:dist && cd dist && npm publish"
   },
   "peerDependencies": {
     "vue": "^3.4.31"
