@@ -1,11 +1,24 @@
 {
   "name": "v-tooltip-lite",
-  "version": "0.0.6",
+  "version": "0.1.2",
   "description": "Lightweight, Customizable Tooltip/Dropdown Component for Vue 3",
   "type": "module",
   "author": "safdar-azeem",
   "license": "MIT",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "keywords": [
     "vue",
     "vue3",
@@ -13,6 +26,8 @@
     "tool-tip",
     "vue-tooltip",
     "vue-dropdown",
+    "menu",
+    "vue-menu",
     "dropdown"
   ],
   "homepage": "https://github.com/safdar-azeem/v-toolTip-lite#readme",
@@ -23,7 +38,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish"
   },
   "peerDependencies": {
     "vue": "^3.4.31"
