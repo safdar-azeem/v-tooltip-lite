@@ -149,6 +149,12 @@ export function usePopover(
       }
    }
 
+   const handleTriggerClick = () => {
+      if (triggerMode === 'hover') {
+         hideTooltip()
+      }
+   }
+
    const shouldIgnoreClick = (target: HTMLElement): boolean => {
       if (!options.ignoreClickOutside || options.ignoreClickOutside.length === 0) {
          return false
@@ -178,6 +184,7 @@ export function usePopover(
       if (triggerMode === 'hover') {
          triggerRef.value?.addEventListener('mouseenter', handleMouseEnter)
          triggerRef.value?.addEventListener('mouseleave', handleMouseLeave)
+         triggerRef.value?.addEventListener('click', handleTriggerClick)
       }
 
       onClickOutside(containerRef, (event) => {
@@ -198,6 +205,7 @@ export function usePopover(
       if (triggerMode === 'hover') {
          triggerRef.value?.removeEventListener('mouseenter', handleMouseEnter)
          triggerRef.value?.removeEventListener('mouseleave', handleMouseLeave)
+         triggerRef.value?.removeEventListener('click', handleTriggerClick)
       }
    })
 
@@ -234,3 +242,4 @@ export function usePopover(
       hideTooltip,
    }
 }
+
