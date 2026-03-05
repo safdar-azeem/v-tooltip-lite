@@ -82,6 +82,17 @@ export function usePopover(
       }
    }
 
+   const focusFirstItemInContainer = () => {
+      if (!containerRef.value) return
+      // Try to focus the scrollable menu container so keyboard events are captured
+      const focusable = containerRef.value.querySelector<HTMLElement>(
+         '[tabindex="0"], [role="menu"], input, button, [href], select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+      if (focusable) {
+         focusable.focus({ preventScroll: true })
+      }
+   }
+
    const showTooltip = async () => {
       clearTimeouts()
       if (!isOpen.value) {
@@ -94,6 +105,8 @@ export function usePopover(
                   options.onShow?.()
                   setTimeout(() => {
                      popperInstance.value?.forceUpdate()
+                     // Move focus inside the dropdown after it is fully rendered and positioned
+                     focusFirstItemInContainer()
                   }, 0)
                }
             },
@@ -112,7 +125,7 @@ export function usePopover(
                popperInstance.value = null
                options.onHide?.()
             },
-            triggerMode === 'hover' ? 100 : 0
+            triggerMode === 'hover' ? 30 : 0
          )
       }
    }
@@ -242,4 +255,3 @@ export function usePopover(
       hideTooltip,
    }
 }
-
