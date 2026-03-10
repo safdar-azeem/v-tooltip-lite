@@ -13,7 +13,8 @@
     "release:patch": "npm version patch && npm run prepare:dist && cd dist && npm publish",
     "release:minor": "npm version minor && npm run prepare:dist && cd dist && npm publish",
     "release:major": "npm version major && npm run prepare:dist && cd dist && npm publish",
-    "publish:dist": "npm run prepare:dist && cd dist && npm publish"
+    "publish:dist": "npm run prepare:dist && cd dist && npm publish",
+    "prepublishOnly": "npm run release:patch"
   },
   "peerDependencies": {
     "vue": "^3.4.31"
