@@ -14,11 +14,11 @@ const props = withDefaults(defineProps<TooltTipProps>(), {
    teleport: true,
    ignoreClickOutside: () => [],
    isOpen: undefined,
+   keepAlive: false,
 })
 
 const emit = defineEmits(['onShow', 'onHide', 'update:isOpen'])
 
-// Performance Optimization: Destructure only what is needed, including control methods
 const {
    triggerRef,
    containerRef,
@@ -48,13 +48,10 @@ const arrowClass = computed(() => {
             : 'tooltip-arrow--top'
 })
 
-// Reactive Control: Sync external prop with internal state efficiently
 watch(
    () => props.isOpen,
    (shouldBeOpen) => {
       if (shouldBeOpen === undefined) return
-
-      // Only trigger state changes if there is a mismatch to avoid redundant cycles
       if (shouldBeOpen && !isOpen.value) {
          showTooltip()
       } else if (!shouldBeOpen && isOpen.value) {
@@ -64,7 +61,6 @@ watch(
    { immediate: true }
 )
 
-// Sync internal state back to parent (v-model support)
 watch(isOpen, (val) => {
    if (val !== props.isOpen) {
       emit('update:isOpen', val)
@@ -85,14 +81,14 @@ onUnmounted(() => {
       <span ref="triggerRef" class="tooltip-trigger" :class="triggerClass">
          <slot name="trigger" v-bind="{ isOpen }" />
       </span>
-      <component :is="teleport ? Teleport : 'div'" v-if="isOpen" to="body">
+      <component :is="teleport ? Teleport : 'div'" v-if="isOpen || keepAlive" to="body">
          <div
+            v-show="isOpen"
             :style="styles"
-            v-if="isOpen"
             :id="menuId"
             ref="containerRef"
-            class="tooltip-container tooltip-container--open"
-            :class="className"
+            class="tooltip-container"
+            :class="[className, isOpen ? 'tooltip-container--open' : '']"
             role="tooltip"
             aria-hidden="true">
             <div class="tooltip-content" :class="contentClass">
