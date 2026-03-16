@@ -38,7 +38,6 @@ export function usePopover(
    const createPopperInstance = async () => {
       if (!triggerRef.value || !containerRef.value) return
 
-      // Always destroy stale instance before creating a new one
       if (popperInstance.value) {
          popperInstance.value.destroy()
          popperInstance.value = null
@@ -88,7 +87,6 @@ export function usePopover(
       if (!triggerRef.value || !containerRef.value) return
 
       if (popperInstance.value) {
-         // Instance already exists — just recalculate position from fresh DOM state
          await nextTick()
          popperInstance.value.forceUpdate()
          return
@@ -111,7 +109,6 @@ export function usePopover(
    const showTooltip = async () => {
       clearTimeouts()
       if (isOpen.value) {
-         // Already open — just force a position recalculation to fix any stale coords
          await nextTick()
          popperInstance.value?.forceUpdate()
          return
@@ -123,7 +120,6 @@ export function usePopover(
             await nextTick()
 
             if (containerRef.value) {
-               // Always recreate the popper on each open so positioning is fresh
                await createPopperInstance()
                options.onShow?.()
                setTimeout(() => {
@@ -143,8 +139,6 @@ export function usePopover(
             () => {
                isOpen.value = false
                options.onHide?.()
-               // Destroy popper on close so next open always gets a clean fresh instance
-               // with accurate DOM measurements — prevents stale position bugs on reopen
                if (popperInstance.value) {
                   popperInstance.value.destroy()
                   popperInstance.value = null
@@ -188,19 +182,29 @@ export function usePopover(
    }
 
    const shouldIgnoreClick = (target: HTMLElement): boolean => {
-      if (!options.ignoreClickOutside || options.ignoreClickOutside.length === 0) return false
-      return options.ignoreClickOutside.some((selector) => {
+      if (triggerRef.value && (target === triggerRef.value || triggerRef.value.contains(target))) {
+         return true
+      }
+
+      const ignores = options.ignoreClickOutside
+      if (!ignores || ignores.length === 0) return false
+
+      // Ensure target is an Element so .closest() resolves properly
+      const el = target.nodeType === 3 ? target.parentElement : target
+      if (!el) return false
+
+      return ignores.some((selector) => {
          if (selector.startsWith('#')) {
             const id = selector.substring(1)
-            return target.id === id || target.closest(`#${CSS.escape(id)}`) !== null
+            // Even if the DOM node was just detached during a synchronous close call,
+            // its internal parentNode hierarchy holds true, so .closest() will safely
+            // identify the ghost `#id` container and rightfully ignore it.
+            return el.id === id || el.closest(`#${CSS.escape(id)}`) !== null
          } else if (selector.startsWith('.')) {
             const className = selector.substring(1)
-            return (
-               target.classList.contains(className) ||
-               target.closest(`.${CSS.escape(className)}`) !== null
-            )
+            return el.classList.contains(className) || el.closest(`.${CSS.escape(className)}`) !== null
          }
-         return target.matches(selector) || target.closest(selector) !== null
+         return el.matches(selector) || el.closest(selector) !== null
       })
    }
 
