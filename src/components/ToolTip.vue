@@ -31,7 +31,11 @@ const {
 } = usePopover(props.placement, props.offset, props.trigger, {
    onShow: () => emit('onShow'),
    onHide: () => emit('onHide'),
-   ignoreClickOutside: props.ignoreClickOutside,
+   // We pass a getter function to ensure usePopover always reads the freshest array.
+   // Using a getter inside the options object safely bridges the reactivity gap.
+   get ignoreClickOutside() {
+      return props.ignoreClickOutside
+   },
 })
 
 const arrowClass = computed(() => {
