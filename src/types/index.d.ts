@@ -17,5 +17,6 @@ export interface TooltTipProps {
    isOpen?: boolean
    keepAlive?: boolean
    menuId?: string
+   disabled?: boolean
 }
 
