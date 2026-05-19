@@ -137,6 +137,7 @@ A tooltip with long text that wraps within the maximum width.
 | `teleport`           | `boolean`                | `true`         | Whether to teleport the tooltip to the body.                            |
 | `isOpen`             | `boolean`                | `undefined`    | Whether the tooltip is open.                                            |
 | `ignoreClickOutside` | `string[]`               | `[]`           | Array of CSS selectors to ignore click outside of.                      |
+| `disabled`           | `boolean`                | `false`        | When true, the tooltip will be disabled and prevented from opening.     |
 
 ## Events
 
