@@ -15,6 +15,7 @@ const props = withDefaults(defineProps<TooltTipProps>(), {
    ignoreClickOutside: () => [],
    isOpen: undefined,
    keepAlive: false,
+   disabled: false,
 })
 
 const emit = defineEmits(['onShow', 'onHide', 'update:isOpen'])
@@ -35,6 +36,9 @@ const {
    // Using a getter inside the options object safely bridges the reactivity gap.
    get ignoreClickOutside() {
       return props.ignoreClickOutside
+   },
+   get disabled() {
+      return props.disabled
    },
 })
 
@@ -70,6 +74,15 @@ watch(isOpen, (val) => {
       emit('update:isOpen', val)
    }
 })
+
+watch(
+   () => props.disabled,
+   (isDisabled) => {
+      if (isDisabled && isOpen.value) {
+         hideTooltip()
+      }
+   }
+)
 
 onMounted(() => {
    initializePopper()
