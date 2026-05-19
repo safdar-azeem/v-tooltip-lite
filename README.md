@@ -158,7 +158,7 @@ Customize the appearance using the following CSS variables defined in `style.css
    --tooltip-radius: 0.375em;
    --tooltip-shadow:
       0 0.625em 1.5625em -0.3125em rgba(0, 0, 0, 0.1), 0 0.25em 0.375em -0.125em rgba(0, 0, 0, 0.05);
-   --tooltip-arrow-size: 0.475em;
+   --tooltip-arrow-size: 0.55em;
    --tooltip-z-index: 999989;
    --tooltip-font-size: 0.75em;
    --tooltip-line-height: 1.4;
