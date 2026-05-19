@@ -8,6 +8,7 @@ interface PopoverOptions {
    onShow?: () => void
    onHide?: () => void
    ignoreClickOutside?: string[]
+   disabled?: boolean
 }
 
 export function usePopover(
@@ -107,6 +108,7 @@ export function usePopover(
    }
 
    const showTooltip = async () => {
+      if (options.disabled) return
       clearTimeouts()
       if (isOpen.value) {
          await nextTick()
