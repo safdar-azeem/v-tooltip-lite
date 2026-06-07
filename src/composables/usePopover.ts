@@ -3,18 +3,20 @@ import { onClickOutside } from 'clickout-lite'
 import type { Placement } from '@popperjs/core'
 import { onMounted, onBeforeUnmount, ref, type Ref, watch } from 'vue'
 import { createPopper, type Instance as PopperInstance } from '@popperjs/core'
+import type { TooltTipReference, TooltTipTrigger } from '../types'
 
 interface PopoverOptions {
    onShow?: () => void
    onHide?: () => void
    ignoreClickOutside?: string[]
    disabled?: boolean
+   reference?: TooltTipReference
 }
 
 export function usePopover(
    placement: Placement,
    offset = [0, 8],
-   triggerMode: 'hover' | 'click',
+   triggerMode: TooltTipTrigger,
    options: PopoverOptions = {}
 ) {
    const triggerRef: Ref<HTMLElement | null> = ref(null)
@@ -36,51 +38,85 @@ export function usePopover(
       }
    }
 
+   /**
+    * Resolve the element the popper should anchor to.
+    *  - 'wrapper' (when configured) → the trigger's parent element.
+    *  - otherwise                    → the trigger element itself.
+    */
+   const getReferenceElement = (): HTMLElement | null => {
+      if (options.reference === 'wrapper') {
+         const parent = triggerRef.value?.parentElement
+         if (parent) return parent
+      }
+      return triggerRef.value
+   }
+
    const createPopperInstance = async () => {
-      if (!triggerRef.value || !containerRef.value) return
+      const referenceEl = getReferenceElement()
+      if (!referenceEl || !containerRef.value) return
 
       if (popperInstance.value) {
          popperInstance.value.destroy()
          popperInstance.value = null
       }
 
-      popperInstance.value = createPopper(triggerRef.value, containerRef.value, {
+      const modifiers: any[] = [
+         {
+            name: 'offset',
+            options: { offset: offset },
+         },
+         {
+            name: 'preventOverflow',
+            options: {
+               boundary: 'viewport',
+               padding: 8,
+            },
+         },
+         {
+            name: 'flip',
+            options: {
+               fallbackPlacements: ['top', 'bottom', 'left', 'right'],
+            },
+         },
+         {
+            name: 'arrow',
+            options: {
+               element: '.tooltip-arrow',
+               padding: 8,
+            },
+         },
+         {
+            name: 'updateActualPlacement',
+            enabled: true,
+            phase: 'afterWrite',
+            fn({ state }: any) {
+               actualPlacement.value = state.placement
+            },
+         },
+      ]
+
+      // When anchored to a wrapper, the popper should match the wrapper's
+      // width so mega-menu panels can span the full container. We do this
+      // via popper's `sameWidth` custom modifier using `applyStyles` phase.
+      if (options.reference === 'wrapper') {
+         modifiers.push({
+            name: 'sameWidth',
+            enabled: true,
+            phase: 'beforeWrite',
+            requires: ['computeStyles'],
+            fn: ({ state }: any) => {
+               state.styles.popper.width = `${state.rects.reference.width}px`
+            },
+            effect: ({ state }: any) => {
+               state.elements.popper.style.width = `${state.elements.reference.getBoundingClientRect().width}px`
+            },
+         })
+      }
+
+      popperInstance.value = createPopper(referenceEl, containerRef.value, {
          placement: placement,
          strategy: 'absolute',
-         modifiers: [
-            {
-               name: 'offset',
-               options: { offset: offset },
-            },
-            {
-               name: 'preventOverflow',
-               options: {
-                  boundary: 'viewport',
-                  padding: 8,
-               },
-            },
-            {
-               name: 'flip',
-               options: {
-                  fallbackPlacements: ['top', 'bottom', 'left', 'right'],
-               },
-            },
-            {
-               name: 'arrow',
-               options: {
-                  element: '.tooltip-arrow',
-                  padding: 8,
-               },
-            },
-            {
-               name: 'updateActualPlacement',
-               enabled: true,
-               phase: 'afterWrite',
-               fn({ state }) {
-                  actualPlacement.value = state.placement
-               },
-            },
-         ],
+         modifiers,
       })
    }
 
@@ -109,6 +145,18 @@ export function usePopover(
 
    const showTooltip = async () => {
       if (options.disabled) return
+      if (triggerMode === 'manual') {
+         // Manual mode: just open without any event listeners bound.
+         clearTimeouts()
+         isOpen.value = true
+         await nextTick()
+         await createPopperInstance()
+         options.onShow?.()
+         setTimeout(() => {
+            popperInstance.value?.forceUpdate()
+         }, 0)
+         return
+      }
       clearTimeouts()
       if (isOpen.value) {
          await nextTick()
@@ -136,6 +184,15 @@ export function usePopover(
 
    const hideTooltip = () => {
       clearTimeouts()
+      if (triggerMode === 'manual') {
+         isOpen.value = false
+         options.onHide?.()
+         if (popperInstance.value) {
+            popperInstance.value.destroy()
+            popperInstance.value = null
+         }
+         return
+      }
       if (isOpen.value) {
          hideTimeout = window.setTimeout(
             () => {
@@ -224,7 +281,7 @@ export function usePopover(
       }
 
       onClickOutside(containerRef, (event) => {
-         if (isOpen.value && triggerMode === 'click') {
+         if (isOpen.value && (triggerMode === 'click' || triggerMode === 'manual')) {
             const target = event.target as HTMLElement
             if (!shouldIgnoreClick(target)) {
                hideTooltip()
@@ -273,5 +330,5 @@ export function usePopover(
       destroyPopper,
       showTooltip,
       hideTooltip,
-   }
+   } as any
 }
