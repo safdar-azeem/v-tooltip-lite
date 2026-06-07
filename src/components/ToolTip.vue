@@ -44,6 +44,9 @@ const {
    get reference() {
       return props.reference
    },
+   get keepAlive() {
+      return props.keepAlive
+   }
 })
 
 const arrowClass = computed(() => {
