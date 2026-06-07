@@ -26,6 +26,7 @@ export function usePopover(
    const actualPlacement: Ref<Placement> = ref(placement)
    const isOpen = ref(false)
    const isHovering = ref(false)
+   const isLockedOpen = ref(false)
    let showTimeout: number | null = null
    let hideTimeout: number | null = null
 
@@ -184,10 +185,11 @@ export function usePopover(
       )
    }
 
-   const hideTooltip = () => {
+   const hideTooltip = (force = false) => {
       clearTimeouts()
       if (triggerMode === 'manual') {
          isOpen.value = false
+         isLockedOpen.value = false
          options.onHide?.()
          if (popperInstance.value) {
             popperInstance.value.destroy()
@@ -196,9 +198,19 @@ export function usePopover(
          return
       }
       if (isOpen.value) {
+         if (force) {
+            isLockedOpen.value = false
+            isOpen.value = false
+            options.onHide?.()
+            if (popperInstance.value) {
+               popperInstance.value.destroy()
+               popperInstance.value = null
+            }
+            return
+         }
          hideTimeout = window.setTimeout(
             () => {
-               if (options.keepAlive) return
+               if (triggerMode === 'hover' && (options.keepAlive || isLockedOpen.value)) return
                isOpen.value = false
                options.onHide?.()
                if (popperInstance.value) {
@@ -213,7 +225,7 @@ export function usePopover(
 
    const toggleTooltip = () => {
       if (isOpen.value) {
-         hideTooltip()
+         hideTooltip(true)
       } else {
          showTooltip()
       }
@@ -242,7 +254,14 @@ export function usePopover(
    }
 
    const handleTriggerClick = () => {
-      if (triggerMode === 'hover') hideTooltip()
+      if (triggerMode === 'hover') {
+         if (isLockedOpen.value) {
+            hideTooltip(true)
+         } else {
+            isLockedOpen.value = true
+            showTooltip()
+         }
+      }
    }
 
    const shouldIgnoreClick = (target: HTMLElement): boolean => {
@@ -286,10 +305,10 @@ export function usePopover(
       }
 
       onClickOutside(containerRef, (event) => {
-         if (isOpen.value && (triggerMode === 'click' || triggerMode === 'manual')) {
+         if (isOpen.value && (triggerMode === 'click' || triggerMode === 'manual' || isLockedOpen.value)) {
             const target = event.target as HTMLElement
             if (!shouldIgnoreClick(target)) {
-               hideTooltip()
+               hideTooltip(true)
             }
          }
       })
@@ -317,7 +336,7 @@ export function usePopover(
    watch(
       () => options.keepAlive,
       (isKeepAlive) => {
-         if (!isKeepAlive && triggerMode === 'hover' && !isHovering.value && isOpen.value) {
+         if (!isKeepAlive && triggerMode === 'hover' && !isHovering.value && !isLockedOpen.value && isOpen.value) {
             hideTooltip()
          }
       }
