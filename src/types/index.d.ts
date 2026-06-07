@@ -1,12 +1,22 @@
 import type { Placement } from '@popperjs/core'
 
 export type TooltTipPlacement = Placement
+export type TooltTipTrigger = 'hover' | 'click' | 'manual'
+/**
+ * Which element the popper anchors to.
+ *  - 'trigger' (default) — the trigger element itself (one-to-one tooltip).
+ *  - 'wrapper'           — the trigger's parent element. Useful for mega-menus
+ *                          where a single wide panel should span the width of
+ *                          the wrapper that contains several triggers.
+ */
+export type TooltTipReference = 'trigger' | 'wrapper'
 
 export interface TooltTipProps {
    content?: string
    placement?: TooltTipPlacement
    offset?: [number, number]
-   trigger?: 'hover' | 'click'
+   trigger?: TooltTipTrigger
+   reference?: TooltTipReference
    arrow?: boolean
    triggerClass?: string
    className?: string
