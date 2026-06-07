@@ -70,7 +70,7 @@ watch(
       if (shouldBeOpen && !isOpen.value) {
          showTooltip()
       } else if (!shouldBeOpen && isOpen.value) {
-         hideTooltip()
+         hideTooltip(true)
       }
    },
    { immediate: true }
@@ -86,7 +86,7 @@ watch(
    () => props.disabled,
    (isDisabled) => {
       if (isDisabled && isOpen.value) {
-         hideTooltip()
+         hideTooltip(true)
       }
    }
 )
