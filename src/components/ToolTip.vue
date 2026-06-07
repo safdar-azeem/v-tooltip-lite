@@ -9,6 +9,7 @@ const props = withDefaults(defineProps<TooltTipProps>(), {
    menuId: '',
    offset: () => [0, 8],
    trigger: 'hover',
+   reference: 'trigger',
    content: '',
    arrow: true,
    teleport: true,
@@ -39,6 +40,9 @@ const {
    },
    get disabled() {
       return props.disabled
+   },
+   get reference() {
+      return props.reference
    },
 })
 
