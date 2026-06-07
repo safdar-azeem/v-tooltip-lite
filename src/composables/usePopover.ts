@@ -11,6 +11,7 @@ interface PopoverOptions {
    ignoreClickOutside?: string[]
    disabled?: boolean
    reference?: TooltTipReference
+   keepAlive?: boolean
 }
 
 export function usePopover(
@@ -24,6 +25,7 @@ export function usePopover(
    const popperInstance: Ref<PopperInstance | null> = ref(null)
    const actualPlacement: Ref<Placement> = ref(placement)
    const isOpen = ref(false)
+   const isHovering = ref(false)
    let showTimeout: number | null = null
    let hideTimeout: number | null = null
 
@@ -196,6 +198,7 @@ export function usePopover(
       if (isOpen.value) {
          hideTimeout = window.setTimeout(
             () => {
+               if (options.keepAlive) return
                isOpen.value = false
                options.onHide?.()
                if (popperInstance.value) {
@@ -229,10 +232,12 @@ export function usePopover(
    }
 
    const handleMouseEnter = () => {
+      isHovering.value = true
       if (triggerMode === 'hover') showTooltip()
    }
 
    const handleMouseLeave = () => {
+      isHovering.value = false
       if (triggerMode === 'hover') hideTooltip()
    }
 
@@ -306,6 +311,15 @@ export function usePopover(
       () => placement,
       () => {
          if (isOpen.value) initializePopper()
+      }
+   )
+
+   watch(
+      () => options.keepAlive,
+      (isKeepAlive) => {
+         if (!isKeepAlive && triggerMode === 'hover' && !isHovering.value && isOpen.value) {
+            hideTooltip()
+         }
       }
    )
 
