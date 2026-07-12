@@ -5,7 +5,16 @@
   "type": "module",
   "author": "safdar-azeem",
   "license": "MIT",
-  "main": "index.js",
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    },
+    "./style.css": "./style.css"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
