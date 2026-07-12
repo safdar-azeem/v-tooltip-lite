@@ -1,25 +1,19 @@
 {
   "name": "v-tooltip-lite",
-  "version": "1.0.0",
+  "version": "0.3.1",
   "description": "Lightweight, Customizable Tooltip/Dropdown Component for Vue 3",
   "type": "module",
   "author": "safdar-azeem",
   "license": "MIT",
-  "main": "./index.js",
-  "module": "./index.js",
-  "types": "./index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "import": "./index.js"
-    },
-    "./style.css": "./style.css"
-  },
+  "main": "index.js",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "prepare:dist": "yarn build && cp package.json README.md dist/",
-    "release": "yarn version --patch --no-git-tag-version && yarn prepare:dist && cd dist && yarn publish --new-version $(node -p \"require('./package.json').version\") --no-git-tag-version"
+    "prepare:dist": "npm run build && cp package.json README.md dist/",
+    "release:patch": "npm version patch && npm run prepare:dist && cd dist && npm publish",
+    "release:minor": "npm version minor && npm run prepare:dist && cd dist && npm publish",
+    "release:major": "npm version major && npm run prepare:dist && cd dist && npm publish",
+    "publish:dist": "npm run prepare:dist && cd dist && npm publish"
   },
   "peerDependencies": {
     "vue": "^3.4.31"
