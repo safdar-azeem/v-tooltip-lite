@@ -19,7 +19,7 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "prepare:dist": "yarn build && cp package.json README.md dist/",
-    "release": "yarn prepare:dist && cd dist && yarn publish"
+    "release": "yarn version --patch --no-git-tag-version && yarn prepare:dist && cd dist && yarn publish --new-version $(node -p \"require('./package.json').version\") --no-git-tag-version"
   },
   "peerDependencies": {
     "vue": "^3.4.31"
