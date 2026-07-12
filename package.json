@@ -9,11 +9,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "prepare:dist": "npm run build && cp package.json README.md dist/",
-    "release:patch": "npm version patch && npm run prepare:dist && cd dist && npm publish",
-    "release:minor": "npm version minor && npm run prepare:dist && cd dist && npm publish",
-    "release:major": "npm version major && npm run prepare:dist && cd dist && npm publish",
-    "publish:dist": "npm run prepare:dist && cd dist && npm publish"
+    "prepare:dist": "yarn build && cp package.json README.md dist/",
+    "publish": "yarn prepare:dist && cd dist && yarn publish"
   },
   "peerDependencies": {
     "vue": "^3.4.31"
