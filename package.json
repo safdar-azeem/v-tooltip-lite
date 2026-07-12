@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "prepare:dist": "yarn build && cp package.json README.md dist/",
-    "publish": "yarn prepare:dist && cd dist && yarn publish"
+    "release": "yarn prepare:dist && cd dist && yarn publish"
   },
   "peerDependencies": {
     "vue": "^3.4.31"
