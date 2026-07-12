@@ -14,6 +14,8 @@ interface PopoverOptions {
    keepAlive?: boolean
 }
 
+const HOVER_DELAY = 150
+
 export function usePopover(
    placement: Placement,
    offset = [0, 8],
@@ -180,7 +182,7 @@ export function usePopover(
                }, 0)
             }
          },
-         triggerMode === 'hover' ? 150 : 0
+         triggerMode === 'hover' ? HOVER_DELAY : 0
       )
    }
 
@@ -215,7 +217,7 @@ export function usePopover(
                   popperInstance.value = null
                }
             },
-            triggerMode === 'hover' ? 30 : 0
+            triggerMode === 'hover' ? HOVER_DELAY : 0
          )
       }
    }
