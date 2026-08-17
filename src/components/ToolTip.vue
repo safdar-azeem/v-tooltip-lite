@@ -13,6 +13,7 @@ const props = withDefaults(defineProps<TooltTipProps>(), {
    content: '',
    arrow: true,
    teleport: true,
+   teleportTarget: 'body',
    ignoreClickOutside: () => [],
    isOpen: undefined,
    keepAlive: false,
@@ -105,7 +106,10 @@ onUnmounted(() => {
       <span ref="triggerRef" class="tooltip-trigger" :class="triggerClass">
          <slot name="trigger" v-bind="{ isOpen }" />
       </span>
-      <component :is="teleport ? Teleport : 'div'" v-if="isOpen || keepAlive" to="body">
+      <component
+         :is="teleport ? Teleport : 'div'"
+         v-if="isOpen || keepAlive"
+         :to="teleport ? teleportTarget : undefined">
          <div
             v-show="isOpen"
             :style="styles"
