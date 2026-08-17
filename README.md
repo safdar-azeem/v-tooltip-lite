@@ -134,7 +134,8 @@ A tooltip with long text that wraps within the maximum width.
 | `arrow`              | `boolean`                | `true`         | Whether to display the tooltip arrow.                                   |
 | `triggerClass`       | `string`                 | `''`           | Class to be applied to the trigger element.                             |
 | `styles`             | `Record<string, string>` | `{}`           | Custom styles for the tooltip container.                                |
-| `teleport`           | `boolean`                | `true`         | Whether to teleport the tooltip to the body.                            |
+| `teleport`           | `boolean`                | `true`         | Whether to teleport the tooltip.                                        |
+| `teleportTarget`     | `string \| HTMLElement` | `'body'`       | Optional destination used when teleporting.                             |
 | `isOpen`             | `boolean`                | `undefined`    | Whether the tooltip is open.                                            |
 | `ignoreClickOutside` | `string[]`               | `[]`           | Array of CSS selectors to ignore click outside of.                      |
 | `disabled`           | `boolean`                | `false`        | When true, the tooltip will be disabled and prevented from opening.     |
