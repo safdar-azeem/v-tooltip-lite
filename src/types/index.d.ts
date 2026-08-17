@@ -2,6 +2,7 @@ import type { Placement } from '@popperjs/core'
 
 export type TooltTipPlacement = Placement
 export type TooltTipTrigger = 'hover' | 'click' | 'manual'
+export type ToolTipTeleportTarget = string | HTMLElement
 /**
  * Which element the popper anchors to.
  *  - 'trigger' (default) — the trigger element itself (one-to-one tooltip).
@@ -22,6 +23,8 @@ export interface TooltTipProps {
    className?: string
    contentClass?: string
    teleport?: boolean
+   /** Destination used when teleport is enabled. Defaults to document.body. */
+   teleportTarget?: ToolTipTeleportTarget
    styles?: Record<string, string>
    ignoreClickOutside?: string[]
    isOpen?: boolean
@@ -29,4 +32,3 @@ export interface TooltTipProps {
    menuId?: string
    disabled?: boolean
 }
-
