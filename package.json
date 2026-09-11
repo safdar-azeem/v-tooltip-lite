@@ -1,19 +1,31 @@
 {
   "name": "v-tooltip-lite",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Lightweight, Customizable Tooltip/Dropdown Component for Vue 3",
   "type": "module",
   "author": "safdar-azeem",
   "license": "MIT",
-  "main": "index.js",
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "default": "./index.js"
+    },
+    "./style.css": "./style.css",
+    "./types": "./types/index.d.ts"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "prepare:dist": "npm run build && cp package.json README.md dist/",
-    "release:patch": "npm version patch && npm run prepare:dist && cd dist && npm publish",
-    "release:minor": "npm version minor && npm run prepare:dist && cd dist && npm publish",
-    "release:major": "npm version major && npm run prepare:dist && cd dist && npm publish",
-    "publish:dist": "npm run prepare:dist && cd dist && npm publish"
+    "prepare:dist": "yarn build && cp package.json README.md dist/",
+    "release:patch": "yarn version --patch && yarn prepare:dist && cd dist && yarn publish --non-interactive",
+    "release:minor": "yarn version --minor && yarn prepare:dist && cd dist && yarn publish --non-interactive",
+    "release:major": "yarn version --major && yarn prepare:dist && cd dist && yarn publish --non-interactive",
+    "publish:dist": "yarn prepare:dist && cd dist && yarn publish --non-interactive",
+    "test:packed": "yarn prepare:dist && node scripts/test-packed.mjs"
   },
   "peerDependencies": {
     "vue": "^3.4.31"
@@ -38,6 +50,6 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
-    "clickout-lite": "^0.0.1"
+    "clickout-lite": "0.0.3"
   }
 }
